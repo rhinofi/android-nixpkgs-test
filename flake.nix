@@ -13,13 +13,27 @@
       system:
       (
         let
-          packages.default = android-nixpkgs.sdk.${system} (sdkPkgs: with sdkPkgs; [
+          pkgs = import nixpkgs {
+            inherit system;
+            config = {
+              android_sdk.accept_license = true;
+              allowUnfree = true;
+            };
+          };
+          androidPkgs = (pkgs.androidenv.composeAndroidPackages {
+            includeEmulator = true;
+          });
+          android-nixpkgs-sdk = android-nixpkgs.sdk.${system} (sdkPkgs: with sdkPkgs; [
             cmdline-tools-latest
             emulator
           ]);
         in
         {
-          inherit packages;
+          packages = {
+            default = android-nixpkgs-sdk;
+            androidenv-emulator = androidPkgs.emulator;
+            androidPkgs = androidPkgs;
+          };
         }
       )
     )
