@@ -13,7 +13,7 @@
       system:
       (
         let
-          packages.android-sdk = android-nixpkgs.sdk.${system} (sdkPkgs: with sdkPkgs; [
+          packages.default = android-nixpkgs.sdk.${system} (sdkPkgs: with sdkPkgs; [
             cmdline-tools-latest
             emulator
           ]);
