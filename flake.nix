@@ -8,7 +8,14 @@
     };
   };
 
-  outputs = { self, nixpkgs, android-nixpkgs, flake-utils, ... }:
+  outputs =
+    {
+      self,
+      nixpkgs,
+      android-nixpkgs,
+      flake-utils,
+      ...
+    }:
     flake-utils.lib.eachDefaultSystem (
       system:
       (
@@ -20,13 +27,17 @@
               allowUnfree = true;
             };
           };
-          androidPkgs = (pkgs.androidenv.composeAndroidPackages {
-            includeEmulator = true;
-          });
-          android-nixpkgs-sdk = android-nixpkgs.sdk.${system} (sdkPkgs: with sdkPkgs; [
-            cmdline-tools-latest
-            emulator
-          ]);
+          androidPkgs = (
+            pkgs.androidenv.composeAndroidPackages {
+              includeEmulator = true;
+            }
+          );
+          android-nixpkgs-sdk = android-nixpkgs.sdk.${system} (
+            sdkPkgs: with sdkPkgs; [
+              cmdline-tools-latest
+              emulator
+            ]
+          );
         in
         {
           packages = {
@@ -36,6 +47,5 @@
           };
         }
       )
-    )
-  ;
+    );
 }
