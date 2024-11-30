@@ -30,6 +30,7 @@
           androidPkgs = (
             pkgs.androidenv.composeAndroidPackages {
               includeEmulator = true;
+              emulatorVersion = "35.4.2";
             }
           );
           android-nixpkgs-sdk = android-nixpkgs.sdk.${system} (
